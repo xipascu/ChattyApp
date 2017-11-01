@@ -22,28 +22,51 @@ class App extends Component {
         }
       ]
     };
+
+
+    this.submitMessage = this.submitMessage.bind(this)
   }
 
-  componentDidMount() {
-    this.setState({loading: true});
+  submitMessage(message) {
+    const { username, content } = message
+    const tempMsgs = this.state.messages
+    tempMsgs.push({
+      id: Math.random()*100000,
+      username: username || "Anonymous",
+      content
+    })
+    this.setState( {
+      messages: tempMsgs
+    })
   }
+  // componentDidMount() {
+  //   console.log("componentDidMount <App />");
+  //   setTimeout(() => {
+  //     console.log("Simulating incoming message");
+  //     // Add a new message to the list of messages in the data store
+  //     const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+  //     const messages = this.state.messages.concat(newMessage)
+  //     // Update the state of the app component.
+  //     // Calling setState will trigger a call to render() in App and all child components.
+  //     this.setState({messages: messages})
+  //   }, 3000);
+  // }
+
+  
 
   render() {
-    if(!this.state.loading) {
-      return <h2>Loading</h2>
-  } else {
     return (
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
-      <MessageList messages = {this.state.messages} />
-      <Chatbar currentUser = {this.state.currentUser} />
+        <MessageList messages = {this.state.messages} />
+        <Chatbar currentUser = {this.state.currentUser} submitMessage= { this.submitMessage } />
       </div>
     );
   }
  }
-}
+
 
 /*
   1.   Copy html layout into App.jsx.   \/
