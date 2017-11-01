@@ -6,7 +6,20 @@ import Chatbar from "./Chatbar.jsx";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {loading: false};
+    
+    this.state = {
+      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      messages: [
+        {
+          username: "Bob",
+          content: "Has anyone seen my marbles?",
+        },
+        {
+          username: "Anonymous",
+          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+        }
+      ]
+    };
   }
   componentDidMount() {
     this.setState({loading: true});
@@ -22,18 +35,18 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
       <MessageList />
-      <Chatbar />
+      <Chatbar currentUser = {this.state.currentUser} />
       </div>
     );
   }
-}
+ }
 }
 
 /*
   1.   Copy html layout into App.jsx.   \/
   2.   Convert class and other reserved names to React versions. \/
   3.   Break html into separate components to create a hierarchy. \/
-  4.   Add state to App.jsx to manage the current posts.
+  4.   Add state to App.jsx to manage the current posts. \/
   5.   Pass the posts to the child components as a prop.
   6.   In the posts series component map over the posts array.
   7.   In the posts component use the prop to replace the static content.
