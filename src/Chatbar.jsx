@@ -1,46 +1,49 @@
 import React, {Component} from 'react';
 
 class Chatbar extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
+  
     this.state = {
-      username: '',
       content: ''
-    };
+    }
+  // this.onContent = this.onContent.bind(this);
+    console.log(this.props)
   }
 
-  onUserChange = (name) => {
-    this.setState({
-      username:name.target.value
-    })
-  }
 
-  onMessage = (msg) => {
-    this.setState({
-      content: msg.target.value
-    });
-  }
+  //if event.key = 'enter'
 
-  submitNewMessage = (event) => {
-    if (event.key === "Enter") {
-      this.props.submitMessage(this.state)
-      this.setState({content: ''})
+  // onContent(event) {
+  //   this.setState({
+  //     content: event.target.value  
+  //   });
+  // }
+
+  handleKeyPress = (event) => {
+    if(event.key == 'Enter'){
+      console.log(event.target.value)
+      this.props.onNewMsg(event.target.value);
+      event.target.value = ''
     }
   }
 
+ 
+
+
+
   render() {
     console.log(this.props.currentUser.name);
+
     return (
 
       <div>
         <footer className="chatbar">
           <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue= {this.props.currentUser.name} />
-          <input className  ="chatbar-message" 
-          placeholder       ="Type a message and hit ENTER" 
-          onKeyDown         = {this.submitNewMessage}
-          onChange          = {this.onMessage}
-          value             = {this.state.content}/>
+          <input className="chatbar-message" 
+          placeholder="Type a message and hit ENTER" 
+          
+          onKeyPress={this.handleKeyPress} />
         </footer>
       </div>
     )

@@ -8,38 +8,29 @@ class App extends Component {
     super(props);
     
     this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: "1",
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          id: "2",
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
+      currentUser: {name: 'You' }, 
+      messages: []
     };
 
-
-    this.submitMessage = this.submitMessage.bind(this)
+    this.onNewMsg = this.onNewMsg.bind(this);
   }
 
-  submitMessage(message) {
-    const { username, content } = message
-    const tempMsgs = this.state.messages
-    tempMsgs.push({
-      id: Math.random()*100000,
-      username: username || "Anonymous",
-      content
+  onNewMsg(content) {
+    if (!content.length < 1){
+    console.log(content);
+    this.setState({
+      messages: this.state.messages.concat({
+        id: Math.random()*1000000,
+        username: this.state.currentUser.name,
+        content
+      })
     })
-    this.setState( {
-      messages: tempMsgs
-    })
-  }
+    }
+   }
+
+
   // componentDidMount() {
+    
   //   console.log("componentDidMount <App />");
   //   setTimeout(() => {
   //     console.log("Simulating incoming message");
@@ -61,7 +52,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages = {this.state.messages} />
-        <Chatbar currentUser = {this.state.currentUser} submitMessage= { this.submitMessage } />
+        <Chatbar currentUser = {this.state.currentUser} onNewMsg = {this.onNewMsg} />
       </div>
     );
   }
