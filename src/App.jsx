@@ -15,8 +15,37 @@ class App extends Component {
     this.onNewMsg = this.onNewMsg.bind(this);
   }
 
+  // onNewMsg(content) {
+  //   if (!content.length < 1){
+  //   console.log(content);
+  //   this.setState({
+  //     messages: this.state.messages.concat({
+  //       id: Math.random()*1000000,
+  //       username: this.state.currentUser.name,
+  //       content
+  //     })
+  //   })
+  //   }
+  //  }
+
+
+  componentDidMount() {
+    this.socket = new WebSocket('ws://localhost:3001');
+      this.socket.onopen = (event) => {
+        this.socket.send('Connected to server....');
+      console.log('where you at bro')
+      }
+    this.socket.addEventListener('message', event => {
+      console.log(event.data)
+      // this.setState({messages: this.state.messages.concat({
+        
+      // })});
+    });
+  }
+
   onNewMsg(content) {
-    if (!content.length < 1){
+    if (content.length < 1) return; 
+    // this.socket.send(content);
     console.log(content);
     this.setState({
       messages: this.state.messages.concat({
@@ -24,24 +53,8 @@ class App extends Component {
         username: this.state.currentUser.name,
         content
       })
-    })
-    }
+    });
    }
-
-
-  // componentDidMount() {
-    
-  //   console.log("componentDidMount <App />");
-  //   setTimeout(() => {
-  //     console.log("Simulating incoming message");
-  //     // Add a new message to the list of messages in the data store
-  //     const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-  //     const messages = this.state.messages.concat(newMessage)
-  //     // Update the state of the app component.
-  //     // Calling setState will trigger a call to render() in App and all child components.
-  //     this.setState({messages: messages})
-  //   }, 3000);
-  // }
 
   
 
@@ -81,18 +94,4 @@ class App extends Component {
 */
 
 
-  //render() method, which returns HTML that will get displayed in the browser
-// class App extends Component {
-//   render() {
-//     return (
-//     <div>
-//       <nav className="navbar">
-//         <a href="/" className="navbar-brand">Chatty</a>
-//       </nav>
-//     <MessageList />
-//     <Chatbar />
-//     </div>
-//     );
-//   }
-// }
 export default App;
