@@ -2,6 +2,7 @@
 
 const express = require('express');
 const ws = require('ws');
+const uuid = require('uuid/v4')
 
 // Set the port to 3001
 const PORT = 3001;
@@ -15,13 +16,13 @@ const server = express()
 // Create the WebSockets server
 const wss = new ws.Server({ server });
 
-// function broadcast (data) {
-//   wss.clients.forEach((client) => {
-//     if (client.readyState === ws.OPEN) {
-//       client.send(data);
-//     } 
-//   });
-// }
+function broadcast (data) {
+  wss.clients.forEach((client) => {
+    if (client.readyState === ws.OPEN) {
+      client.send(data);
+    } 
+  });
+}
 
 
 // Set up a callback that will run when a client connects to the server
@@ -29,10 +30,13 @@ const wss = new ws.Server({ server });
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
-
   ws.on('message', (data) => {
-    console.log('Received msg from client...' + data);
-  // broadcast(data)
+
+  const dataParse = JSON.parse(data);
+  dataParse.id = uuid();
+    console.log('Received msg from client...', dataParse);
+    broadcast(data);
+    // console.log('coming from server, data:', data);
   });
 
   ws.send('Server saying heyo!');

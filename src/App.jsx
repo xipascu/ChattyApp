@@ -15,31 +15,17 @@ class App extends Component {
     this.onNewMsg = this.onNewMsg.bind(this);
   }
 
-  // onNewMsg(content) {
-  //   if (!content.length < 1){
-  //   console.log(content);
-  //   this.setState({
-  //     messages: this.state.messages.concat({
-  //       id: Math.random()*1000000,
-  //       username: this.state.currentUser.name,
-  //       content
-  //     })
-  //   })
-  //   }
-  //  }
 
 
   componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001');
       this.socket.onopen = (event) => {
-        this.socket.send('Connected to server....');
+        // this.socket.send('Connected to server....');
       console.log('where you at bro')
       }
     this.socket.addEventListener('message', event => {
       console.log(event.data)
-      // this.setState({messages: this.state.messages.concat({
-        
-      // })});
+      this.setState({messages: this.state.messages.concat(JSON.parse(event.data))});
     });
   }
 
@@ -47,13 +33,10 @@ class App extends Component {
     if (content.length < 1) return; 
     // this.socket.send(content);
     console.log(content);
-    this.setState({
-      messages: this.state.messages.concat({
-        id: Math.random()*1000000,
-        username: this.state.currentUser.name,
-        content
-      })
-    });
+    const newMsg = { id: Math.random()*100000, username: this.state.currentUser.name, content};
+    // const messages = this.state.messages.concat(newMsg)
+    // this.setState({messages: messages})
+      this.socket.send(JSON.stringify(newMsg));
    }
 
   
