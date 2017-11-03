@@ -8,7 +8,8 @@ class App extends Component {
     super(props); 
     this.state = {
       currentUser: '', // the name I send as in here
-      messages: []
+      messages: [],
+      userCount: ''
     };
     this.onNewMsg = this.onNewMsg.bind(this);
     this.onNewUsername = this.onNewUsername.bind(this);
@@ -21,10 +22,16 @@ class App extends Component {
       console.log('where you at bro')
     }
     this.socket.addEventListener('message', event => {
-      console.log(event.data)
-      this.setState({
-        messages: this.state.messages.concat(JSON.parse(event.data))
-      });
+      if (event.type == 'Notification') {
+        this.setState({
+          userCount: this.state.userCount(JSON.parse(event.userCount))
+        })
+        console.log("number of users online:", this.state.userCount);
+      } else {
+        this.setState({
+         messages: this.state.messages.concat(JSON.parse(event.data))
+        });
+      }
       console.log("number of messages:", this.state.messages.length);
     });
   }
@@ -64,6 +71,7 @@ class App extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <span className="userCount" userCount = {this.state.userCount}></span>
         </nav>
         <MessageList messages = {this.state.messages} />
         <Chatbar 

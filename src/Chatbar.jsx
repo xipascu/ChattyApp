@@ -23,6 +23,7 @@ class Chatbar extends Component {
     }
   }
 
+    //onMouseLeave: the mouse leaves an element 
   handleNameKeyPress = (event) => {
     if (event.key == 'Enter'){
       this.props.onNewUsername(this.state.userSoFar);

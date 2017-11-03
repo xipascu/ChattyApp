@@ -1,5 +1,4 @@
 // server.js
-
 const express = require('express');
 const ws = require('ws');
 const uuid = require('uuid/v4')
@@ -9,7 +8,6 @@ const PORT = 3001;
 
 // Create a new express server
 const server = express()
-   // Make the express server serve static assets (html, javascript, css) from the /public folder
   .use(express.static('public'))
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
 
@@ -29,9 +27,14 @@ function broadcast (data) {
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
+
+  const userSize = wss.clients.size;
+  const userCount = {id: uuid(), type:'Notification', userNum: userSize, content:`Number of users currently online: ${userSize}`};
+    broadcast(JSON.stringify(userCount));
+    // console.log(userCount);
+
   console.log('Client connected');
   ws.on('message', (data) => {
-
     const dataParse = JSON.parse(data);
     dataParse.id = uuid();
     console.log('Received msg from client...', dataParse);
