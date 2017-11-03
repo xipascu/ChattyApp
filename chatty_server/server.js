@@ -32,10 +32,10 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('message', (data) => {
 
-  const dataParse = JSON.parse(data);
-  dataParse.id = uuid();
+    const dataParse = JSON.parse(data);
+    dataParse.id = uuid();
     console.log('Received msg from client...', dataParse);
-    broadcast(data);
+    broadcast(JSON.stringify(dataParse));
     // console.log('coming from server, data:', data);
   });
 

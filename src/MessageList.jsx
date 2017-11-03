@@ -11,12 +11,11 @@ class MessageList extends Component {
     });
 
     return (
-    <div>
-      
-      <main className="messages">
-        { messages }
-      </main> 
-    </div>  
+      <div>
+        <main className="messages">
+          { messages }
+        </main>
+      </div>  
     )
   }
 }

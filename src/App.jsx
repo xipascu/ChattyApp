@@ -5,49 +5,59 @@ import Chatbar from "./Chatbar.jsx";
 
 class App extends Component {
   constructor(props) {
-    super(props);
-    
+    super(props); 
     this.state = {
-      currentUser: {name: '' }, 
+      currentUser: '', // the name I send as in here
       messages: []
     };
-
     this.onNewMsg = this.onNewMsg.bind(this);
+    this.onNewUsername = this.onNewUsername.bind(this);
   }
-
-
 
   componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001');
-      this.socket.onopen = (event) => {
-        // this.socket.send('Connected to server....');
+    this.socket.onopen = (event) => {
+      // this.socket.send('Connected to server....');
       console.log('where you at bro')
-      }
+    }
     this.socket.addEventListener('message', event => {
       console.log(event.data)
       this.setState({
         messages: this.state.messages.concat(JSON.parse(event.data))
       });
+      console.log("number of messages:", this.state.messages.length);
     });
   }
 
-s
-
-  onNewMsg(content, username) {
+  onNewMsg(content) {
+    var username = this.state.currentUser;
     if (content.length < 1)  return; 
     if (username === '') {
-      username ='anonymous';
+      username = 'Anonymous';
     }
-
-    // this.socket.send(content);
     console.log(content);
-    const newMsg = { username, content };
-    // const messages = this.state.messages.concat(newMsg)
-    // this.setState({messages: messages})
-      this.socket.send(JSON.stringify(newMsg));
-   }
+    const newMsg = { 
+      type: 'Chat', 
+      username, content 
+    }; 
+    this.socket.send(JSON.stringify(newMsg));
+  }
 
-  
+  onNewUsername(username) {
+    console.log('Username', username);
+      const oldName = this.state.currentUser ? this.state.currentUser : "Anonymous";
+      const newName = username;
+    if (newName != oldName) {
+      this.setState({currentUser: newName});
+      const content = `${oldName} has changed their name to ${newName}`;
+      const newMsg  = {
+        type: 'Notification',
+        content
+      }
+      console.log(newMsg)
+      this.socket.send(JSON.stringify(newMsg));    
+    }
+  }
 
   render() {
     return (
@@ -56,33 +66,15 @@ s
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages = {this.state.messages} />
-        <Chatbar currentUser = {this.state.currentUser.name} onNewMsg = {this.onNewMsg} />
+        <Chatbar 
+          currentUser = {this.state.currentUser}
+          onNewMsg = {this.onNewMsg}
+          onNewUsername = {this.onNewUsername}
+        />
       </div>
     );
   }
  }
-
-
-/*
-  1.   Copy html layout into App.jsx.   \/
-  2.   Convert class and other reserved names to React versions. \/
-  3.   Break html into separate components to create a hierarchy. \/
-  4.   Add state to App.jsx to manage the current posts. \/
-  5.   Pass the posts to the child components as a prop.
-  6.   In the posts series component map over the posts array.
-  7.   In the posts component use the prop to replace the static content.
-  8.   In the header setup the content state.
-  9.   Pass the current and maximum character count to the status bar as props.
-  10.  In the status bar render the character counter, changing the style when max is reached.
-  11.  Setup an event handler to trigger an update to the content on input.
-  12.  Pass a function to the header that it can call when a new post is created.
-  13.  Setup an event handler to use the function, passed as a prop.
-  14.  In the header create the error state and pass it as a prop to the status.
-  15.  Show the error text if it is not empty.
-  16.  Switch from hard coded posts to json that uses a fetch (ajax) call.
-  17.  Save the new post to the database in the App.jsx post handler function.
-  18.  Toggle the visibility of the compose window.
-*/
 
 
 export default App;
