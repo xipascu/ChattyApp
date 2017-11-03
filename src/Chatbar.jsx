@@ -5,23 +5,21 @@ class Chatbar extends Component {
     super(props);
   
     this.state = {
-      content: ''
+      content: '',
     }
   // this.onContent = this.onContent.bind(this);
     console.log(this.props)
   }
 
-
-  // onContent(event) {
-  //   this.setState({
-  //     content: event.target.value  
-  //   });
-  // }
+  userChange = (event) => {
+    console.log(event.target.value);
+    this.setState({currentUser: event.target.value});
+  }
 
   handleKeyPress = (event) => {
     if(event.key == 'Enter'){
       // console.log(event.target.value)
-      this.props.onNewMsg(event.target.value);
+      this.props.onNewMsg(event.target.value, this.state.currentUser);
       event.target.value = ''
     }
   }
@@ -33,10 +31,9 @@ class Chatbar extends Component {
 
       <div>
         <footer className="chatbar">
-          <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue= {this.props.currentUser.name} />
+          <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue= {this.props.currentUser.name} onChange={this.userChange} />
           <input className="chatbar-message" 
           placeholder="Type a message and hit ENTER" 
-          
           onKeyPress={this.handleKeyPress} />
         </footer>
       </div>

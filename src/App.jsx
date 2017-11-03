@@ -8,7 +8,7 @@ class App extends Component {
     super(props);
     
     this.state = {
-      currentUser: {name: 'You' }, 
+      currentUser: {name: '' }, 
       messages: []
     };
 
@@ -25,15 +25,23 @@ class App extends Component {
       }
     this.socket.addEventListener('message', event => {
       console.log(event.data)
-      this.setState({messages: this.state.messages.concat(JSON.parse(event.data))});
+      this.setState({
+        messages: this.state.messages.concat(JSON.parse(event.data))
+      });
     });
   }
 
-  onNewMsg(content) {
-    if (content.length < 1) return; 
+s
+
+  onNewMsg(content, username) {
+    if (content.length < 1)  return; 
+    if (username === '') {
+      username ='anonymous';
+    }
+
     // this.socket.send(content);
     console.log(content);
-    const newMsg = { id: Math.random()*100000, username: this.state.currentUser.name, content};
+    const newMsg = { username, content };
     // const messages = this.state.messages.concat(newMsg)
     // this.setState({messages: messages})
       this.socket.send(JSON.stringify(newMsg));
@@ -48,7 +56,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages = {this.state.messages} />
-        <Chatbar currentUser = {this.state.currentUser} onNewMsg = {this.onNewMsg} />
+        <Chatbar currentUser = {this.state.currentUser.name} onNewMsg = {this.onNewMsg} />
       </div>
     );
   }
