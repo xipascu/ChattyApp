@@ -9,7 +9,9 @@ class App extends Component {
     this.state = {
       currentUser: '', // the name I send as in here
       messages: [],
-      userCount: ''
+      type:'chat',
+      usersOnline: 0,
+      changeBar: ''
     };
     this.onNewMsg = this.onNewMsg.bind(this);
     this.onNewUsername = this.onNewUsername.bind(this);
@@ -22,15 +24,18 @@ class App extends Component {
       console.log('where you at bro')
     }
     this.socket.addEventListener('message', event => {
-      if (event.type == 'Notification') {
+      const allData = JSON.parse(event.data)
+      console.log(allData);
+      if (allData.type === 'Notification') {
         this.setState({
-          userCount: this.state.userCount(JSON.parse(event.userCount))
-        })
-        console.log("number of users online:", this.state.userCount);
-      } else {
+          type: 'Notification'
+        }) 
+      } 
+      else {
         this.setState({
-         messages: this.state.messages.concat(JSON.parse(event.data))
-        });
+          usersOnline: allData.userCount,
+          messages: this.state.messages.concat(allData)
+          });
       }
       console.log("number of messages:", this.state.messages.length);
     });
@@ -70,10 +75,10 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
-          <span className="userCount" userCount = {this.state.userCount}></span>
+          <a href="/" className="navbar-brand">ChattyBratty</a>
+          <span className="userStatus"> Users online: {this.state.userCount}></span>
         </nav>
-        <MessageList messages = {this.state.messages} />
+        <MessageList messages = {this.state.messages} type={this.state.type} />
         <Chatbar 
           currentUser = {this.state.currentUser}
           onNewMsg = {this.onNewMsg}

@@ -29,11 +29,10 @@ function broadcast (data) {
 wss.on('connection', (ws) => {
 
   const userSize = wss.clients.size;
-  const userCount = {id: uuid(), type:'Notification', userNum: userSize, content:`Number of users currently online: ${userSize}`};
+  const userCount = {id: uuid(), type:'Notification', content:'New user has joined.', userSize};
     broadcast(JSON.stringify(userCount));
-    // console.log(userCount);
-
   console.log('Client connected');
+
   ws.on('message', (data) => {
     const dataParse = JSON.parse(data);
     dataParse.id = uuid();
@@ -45,5 +44,9 @@ wss.on('connection', (ws) => {
   ws.send('Server saying heyo!');
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => { console.log('Client disconnected')
+    userSize= wss.clients.size;
+    userCountEnd= {id: uuid(), type:'Notification', content:'A user has left.', userSize};
+    broadcast(JSON.stringify(userCountEnd))
+  });
 });
