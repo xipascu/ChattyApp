@@ -5,8 +5,7 @@ A minimal and light dev environment for ReactJS.
 
 ## screenshots
 
-!["basic usage of the app and functionality"]
-(https://raw.githubusercontent.com/xipascu/ChattyApp/master/docs/basicFeature.png)
+!["basic usage of the app and functionality"](https://raw.githubusercontent.com/xipascu/ChattyApp/master/docs/basicFeature.png)
 
 
 ### Usage
