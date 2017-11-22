@@ -1,6 +1,37 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
+
+//ADD-ON
+
+.userCount {
+  color: #ffffff;
+  display: block;
+  float: right;
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 10px;
+  text-decoration: none;
+}
+
+.colour0 {
+  color: rgb(190, 153, 226);
+}
+
+.colour1 {
+  color: #00c3fe;
+}
+
+.colour2 {
+  color: #3dd68a;
+}
+
+.colour3 {
+  color: #fec200;
+}
+
+//INCLUDED
 h1 {
   color: tomato;
 }
@@ -14,7 +45,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background: rgb(255, 160, 71);
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -52,7 +83,11 @@ body {
   padding: 5px 20px;
 }
 
-.message-content,
+.message-content p {
+  margin: 0px;
+  overflow-wrap: break-word;
+}
+
 .message-username {
   overflow: hidden;
   margin: 5px;

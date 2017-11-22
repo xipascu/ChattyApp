@@ -1,16 +1,15 @@
 // server.js
-const express = require('express');
-const ws = require('ws');
-const uuid = require('uuid/v4')
-
-// Set the port to 3001
-const PORT = 3001;
+const express  = require('express');
+const ws       = require('ws');
+const uuid     = require('uuid/v4')
+const PORT     = 3001;
 
 // Create a new express server
 const server = express()
   .use(express.static('public'))
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
 
+  
 // Create the WebSockets server
 const wss = new ws.Server({ server });
 
@@ -20,33 +19,59 @@ function broadcast (data) {
       client.send(data);
     } 
   });
+};
+
+function randomColour() {
+  const randomC = Math.floor(Math.random() * 4);
+  switch(randomC) {
+    case 0:
+      return 'colour0';
+    case 1:
+      return 'colour1';
+    case 2:
+      return 'colour2';
+    case 3:
+      return 'colour3';
+    default:
+      return 'colour0';
+  }
 }
 
-
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
 wss.on('connection', (ws) => {
-
-  const userSize = wss.clients.size;
-  const userCount = {id: uuid(), type:'Notification', content:'New user has joined.', userSize};
+  console.log('Client server has connected');
+  ws.colour = randomColour();
+  console.log("server col:", ws.colour);
+  let userSize = wss.clients.size;
+  const userCount = {
+    id      : uuid(), 
+    type    : 'Notification',  
+    content : 'A new user has joined ChattyBratty.', 
+    userSize
+  };
     broadcast(JSON.stringify(userCount));
-  console.log('Client connected');
+    console.log("THIS IS THE USERCOUNT ON USER JOINING: ", userCount);
 
   ws.on('message', (data) => {
-    const dataParse = JSON.parse(data);
-    dataParse.id = uuid();
-    console.log('Received msg from client...', dataParse);
+    const dataParse    = JSON.parse(data);
+    dataParse.id       = uuid();
+    dataParse.userSize = userSize;
+    dataParse.colour   = ws.colour;
+    console.log("Changing colour with user: ", dataParse.colour);
     broadcast(JSON.stringify(dataParse));
-    // console.log('coming from server, data:', data);
   });
-
+  
   ws.send('Server saying heyo!');
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => { console.log('Client disconnected')
-    userSize= wss.clients.size;
-    userCountEnd= {id: uuid(), type:'Notification', content:'A user has left.', userSize};
-    broadcast(JSON.stringify(userCountEnd))
+  ws.on('close', () => {
+    console.log('Client disconnected')
+    userSize = wss.clients.size;
+    const userLeft = {
+      id      : uuid(), 
+      type    : 'Notification', 
+      content : 'A user has left ChattyBratty.', 
+      userSize
+    }
+    broadcast(JSON.stringify(userLeft))
   });
 });

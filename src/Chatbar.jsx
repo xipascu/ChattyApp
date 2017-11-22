@@ -7,25 +7,28 @@ class Chatbar extends Component {
     this.state = {
       userSoFar: this.props.currentUser,  // answer-so-far in username field
       content: '',      // the answer-so-far in the message field
+      type: 'Chat'
     }
     console.log(this.props)
   }
 
   userChange = (event) => {
-    console.log(event.target.value);
     this.setState({userSoFar: event.target.value});
   }
 
   handleMessageKeyPress = (event) => {
     if(event.key == 'Enter'){
       this.props.onNewMsg(event.target.value, this.state.userSoFar);
-      event.target.value = ''
+      event.target.value = '';
     }
   }
 
-    //onMouseLeave: the mouse leaves an element 
+    //to implement- onMouseLeave: the mouse leaves an element 
   handleNameKeyPress = (event) => {
     if (event.key == 'Enter'){
+      if (this.state.userSoFar === '') {
+        this.setState({userSoFar: 'Anonymous'});
+      }
       this.props.onNewUsername(this.state.userSoFar);
     }
   }
@@ -35,16 +38,16 @@ class Chatbar extends Component {
       <div>
         <footer className="chatbar">
           <input
-            className="chatbar-username"
-            placeholder="Your Name (Optional)"
-            defaultValue= {this.state.userSoFar}
-            onChange={this.userChange}
-            onKeyPress={this.handleNameKeyPress}
+            className    = "chatbar-username"
+            placeholder  = "Your Name (Optional)"
+            defaultValue = {this.props.userSoFar}
+            onKeyPress   = {this.handleNameKeyPress}
+            onChange     = {this.userChange}
           />
           <input
-            className="chatbar-message" 
-            placeholder="Type a message and hit ENTER" 
-            onKeyPress={this.handleMessageKeyPress}
+            className    = "chatbar-message" 
+            placeholder  = "Type a message and hit ENTER" 
+            onKeyPress   = {this.handleMessageKeyPress}
           />
         </footer>
       </div>
