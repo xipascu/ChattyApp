@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props); 
     this.state = {
-      currentUser: {name: 'Anonymous'}, // the name I send as in here
+      currentUser: {name: 'Anonymous'},
       messages: [],
       type: 'Notification',
       userCountOn: 0,
@@ -42,8 +42,6 @@ class App extends Component {
 
   onNewMsg(content, username) {
     if (content.length < 1)  return; 
-    // if (username === '') {username = 'Anonymous';}
-    // console.log(content);
     const newMsg = { 
       type: 'Chat', 
       username: this.state.currentUser.name,

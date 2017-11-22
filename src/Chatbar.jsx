@@ -5,8 +5,8 @@ class Chatbar extends Component {
     super(props);
   
     this.state = {
-      userSoFar: this.props.currentUser,  // answer-so-far in username field
-      content: '',      // the answer-so-far in the message field
+      userSoFar: this.props.currentUser,  
+      content: '',      
       type: 'Chat'
     }
     console.log(this.props)
