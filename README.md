@@ -3,6 +3,11 @@ React Boilerplate
 
 A minimal and light dev environment for ReactJS.
 
+## screenshots
+
+!["basic usage of the app and functionality"]
+
+
 ### Usage
 
 Clone the boilerplate and create your own git repo.

@@ -1,35 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
-
-
-//ADD-ON
-
-.userCount {
-  color: #ffffff;
-  display: block;
-  float: right;
-  font-size: 16px;
-  height: 60px;
-  line-height: 60px;
-  padding: 0 10px;
-  text-decoration: none;
-}
-
-.colour0 {
-  color: rgb(190, 153, 226);
-}
-
-.colour1 {
-  color: #00c3fe;
-}
-
-.colour2 {
-  color: #3dd68a;
-}
-
-.colour3 {
-  color: #fec200;
-}
+@import url('https://fonts.googleapis.com/css?family=Shadows+Into+Light');
+@import url('https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed');
 
 //INCLUDED
 h1 {
@@ -38,15 +10,15 @@ h1 {
 
 body {
   background: white;
-  color: black;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
+  color: #116daa;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-size: 16px;
   margin: 70px 0;
 }
 
 .chatbar {
-  background: rgb(255, 160, 71);
-  border-top: 1px solid black;
+  background: #b3daf2;
+  border-top: 1px solid #95bad3;
   bottom: 0;
   display: flex;
   left: 0;
@@ -57,12 +29,13 @@ body {
 
 .chatbar-message,
 .chatbar-username {
-  border: 1px solid black;
+  border: 1px solid #7cafd1;
   display: block;
   height: 40px;
   line-height: 40px;
   margin: 5px;
   padding: 0 9px;
+  border-radius: 5px;
 }
 
 .chatbar-message {
@@ -90,7 +63,6 @@ body {
 
 .message-username {
   overflow: hidden;
-  margin: 5px;
   padding: 0 10px;
 }
 
@@ -100,12 +72,14 @@ body {
 
 .message-username {
   flex: 2;
-  font-weight: 700;
+  font-weight: 400;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-size: 16px;
 }
 
 .navbar {
-  background: tomato;
-  border-bottom: 1px solid black;
+  background: #85C1E9;
+  border-bottom: 1px solid #85c1e9;
   height: 60px;
   left: 0;
   padding: 0 10px;
@@ -115,7 +89,8 @@ body {
 }
 
 .navbar-brand {
-  color: inherit;
+  font-family: 'Shadows Into Light', cursive;
+  color: black;
   display: block;
   float: left;
   font-weight: 700;
@@ -124,4 +99,35 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+
+//ADD-ON
+
+.userCount {
+  font-family: 'Shadows Into Light', cursive;
+  color: #ffffff;
+  display: block;
+  float: right;
+  font-size: 18px;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 10px;
+  text-decoration: none;
+}
+
+.colour0 {
+  color: rgb(147, 51, 243);
+}
+
+.colour1 {
+  color: #43a6be;
+}
+
+.colour2 {
+  color: #439713;
+}
+
+.colour3 {
+  color: #fe9800;
 }
